@@ -4,14 +4,7 @@ import { deleteTask, updateTask } from '../tasksSlice';
 import { removeTaskFromColumn } from '../../board/boardSlice';
 import { selectTaskById } from '../tasksSelectors';
 
-interface TaskCardProps {
-  taskId: string;
-  columnId: string;
-  onDragStart: (taskId: string) => void;
-  onDragEnd: () => void;
-}
-
-export function TaskCard({ taskId, columnId, onDragStart, onDragEnd }: TaskCardProps) {
+export function TaskCard({ taskId, columnId, onDragStart, onDragEnd }) {
   const dispatch = useAppDispatch();
 
   // TODO [Level 1]: Use useAppSelector with selectTaskById to read the task from the store

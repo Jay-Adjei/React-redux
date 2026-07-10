@@ -1,9 +1,7 @@
 import {
   createSlice,
   createAsyncThunk,
-  type PayloadAction,
 } from '@reduxjs/toolkit';
-import type { Priority, Task } from '../../types';
 import {
   deleteTaskFromApi,
   fetchTasksFromApi,
@@ -11,16 +9,7 @@ import {
   saveTaskToApi,
 } from './tasksApi';
 
-interface TasksState {
-  entities: Record<string, Task>;
-  ids: string[];
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
-  error: string | null;
-  filterAssigneeId: string | null;
-  optimisticMoves: Record<string, { fromColumnId: string; toColumnId: string }>;
-}
-
-const initialState: TasksState = {
+const initialState = {
   entities: Object.fromEntries(mockTasks.map((task) => [task.id, task])),
   ids: mockTasks.map((task) => task.id),
   status: 'idle',
@@ -33,13 +22,13 @@ export const fetchTasks = createAsyncThunk('tasks/fetchTasks', async () => {
   return fetchTasksFromApi();
 });
 
-export const persistTask = createAsyncThunk('tasks/persistTask', async (task: Task) => {
+export const persistTask = createAsyncThunk('tasks/persistTask', async (task) => {
   return saveTaskToApi(task);
 });
 
 export const removeTaskRemote = createAsyncThunk(
   'tasks/removeTaskRemote',
-  async (taskId: string) => {
+  async (taskId) => {
     return deleteTaskFromApi(taskId);
   },
 );
@@ -48,65 +37,38 @@ const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    addTask: (
-      state,
-      action: PayloadAction<{
-        id?: string;
-        columnId: string;
-        title: string;
-        description?: string;
-        priority?: Priority;
-        assigneeId?: string | null;
-      }>,
-    ) => {
+    addTask: (state, action) => {
       // TODO [Level 1]: Implement the addTask reducer here
       // Hint: Generate an id, create a Task object, add it to state.entities and state.ids
       void state;
       void action;
     },
-    deleteTask: (state, action: PayloadAction<string>) => {
+    deleteTask: (state, action) => {
       // TODO [Level 1]: Implement the deleteTask reducer here
       // Hint: Remove the task from state.entities and state.ids
       void state;
       void action;
     },
-    updateTask: (
-      state,
-      action: PayloadAction<{
-        id: string;
-        title?: string;
-        description?: string;
-        priority?: Priority;
-        assigneeId?: string | null;
-      }>,
-    ) => {
+    updateTask: (state, action) => {
       // TODO [Level 1]: Implement the updateTask reducer here
       // Hint: Find the task by id and update the provided fields
       void state;
       void action;
     },
-    setFilterAssignee: (state, action: PayloadAction<string | null>) => {
+    setFilterAssignee: (state, action) => {
       state.filterAssigneeId = action.payload;
     },
-    moveTaskOptimistic: (
-      state,
-      action: PayloadAction<{
-        taskId: string;
-        fromColumnId: string;
-        toColumnId: string;
-        toIndex: number;
-      }>,
-    ) => {
+    moveTaskOptimistic: (state, action) => {
       // TODO [Level 3]: Implement optimistic move — update task.columnId and track in optimisticMoves
       void state;
       void action;
     },
-    revertOptimisticMove: (state, action: PayloadAction<string>) => {
+    revertOptimisticMove: (state, action) => {
       // TODO [Level 3]: Revert an optimistic move using optimisticMoves record
       void state;
       void action;
     },
-    confirmOptimisticMove: (state, action: PayloadAction<string>) => {
+    confirmOptimisticMove: (state, action) => {
       // TODO [Level 3]: Clear the optimistic move tracking entry on success
       void state;
       void action;

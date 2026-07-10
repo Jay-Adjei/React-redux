@@ -1,6 +1,4 @@
-import type { User } from '../../types';
-
-export const mockUsers: User[] = [
+export const mockUsers = [
   { id: 'user-1', name: 'Alice Chen', avatar: 'AC' },
   { id: 'user-2', name: 'Bob Martinez', avatar: 'BM' },
   { id: 'user-3', name: 'Carol Williams', avatar: 'CW' },

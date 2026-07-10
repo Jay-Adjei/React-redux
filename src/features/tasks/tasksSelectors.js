@@ -1,17 +1,14 @@
-import type { RootState } from '../../app/store';
-import type { Task } from '../../types';
-
-const selectTasksState = (state: RootState) => state.tasks;
-const selectBoardState = (state: RootState) => state.board;
+const selectTasksState = (state) => state.tasks;
+const selectBoardState = (state) => state.board;
 
 // TODO [Level 3]: Convert this to a memoized selector using createSelector from @reduxjs/toolkit
-export const selectAllTasks = (state: RootState): Task[] => {
+export const selectAllTasks = (state) => {
   const tasksState = selectTasksState(state);
   return tasksState.ids.map((id) => tasksState.entities[id]);
 };
 
 // TODO [Level 3]: Write a memoized selector to filter tasks by assignee ID and column ID
-export const selectTasksByColumnId = (columnId: string) => (state: RootState): Task[] => {
+export const selectTasksByColumnId = (columnId) => (state) => {
   // Unoptimized stub — returns tasks for this column without assignee filtering
   const tasks = selectAllTasks(state);
   return tasks
@@ -19,31 +16,31 @@ export const selectTasksByColumnId = (columnId: string) => (state: RootState): T
     .sort((a, b) => a.order - b.order);
 };
 
-export const selectTaskById = (taskId: string) => (state: RootState): Task | undefined => {
+export const selectTaskById = (taskId) => (state) => {
   return selectTasksState(state).entities[taskId];
 };
 
-export const selectFilterAssigneeId = (state: RootState): string | null => {
+export const selectFilterAssigneeId = (state) => {
   return selectTasksState(state).filterAssigneeId;
 };
 
-export const selectTasksStatus = (state: RootState) => {
+export const selectTasksStatus = (state) => {
   return selectTasksState(state).status;
 };
 
-export const selectTasksError = (state: RootState): string | null => {
+export const selectTasksError = (state) => {
   return selectTasksState(state).error;
 };
 
-export const selectColumnTaskIds = (columnId: string) => (state: RootState): string[] => {
+export const selectColumnTaskIds = (columnId) => (state) => {
   return selectBoardState(state).columns[columnId]?.taskIds ?? [];
 };
 
-export const selectColumns = (state: RootState) => {
+export const selectColumns = (state) => {
   const boardState = selectBoardState(state);
   return boardState.activeBoard.columnIds.map((id) => boardState.columns[id]);
 };
 
-export const selectActiveBoard = (state: RootState) => {
+export const selectActiveBoard = (state) => {
   return selectBoardState(state).activeBoard;
 };
