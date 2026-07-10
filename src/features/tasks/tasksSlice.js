@@ -1,9 +1,7 @@
 import {
   createSlice,
   createAsyncThunk,
-  type PayloadAction,
 } from '@reduxjs/toolkit';
-import type { Priority, Task } from '../../types';
 import {
   deleteTaskFromApi,
   fetchTasksFromApi,
@@ -11,16 +9,7 @@ import {
   saveTaskToApi,
 } from './tasksApi';
 
-interface TasksState {
-  entities: Record<string, Task>;
-  ids: string[];
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
-  error: string | null;
-  filterAssigneeId: string | null;
-  optimisticMoves: Record<string, { fromColumnId: string; toColumnId: string }>;
-}
-
-const initialState: TasksState = {
+const initialState = {
   entities: Object.fromEntries(mockTasks.map((task) => [task.id, task])),
   ids: mockTasks.map((task) => task.id),
   status: 'idle',
@@ -33,13 +22,13 @@ export const fetchTasks = createAsyncThunk('tasks/fetchTasks', async () => {
   return fetchTasksFromApi();
 });
 
-export const persistTask = createAsyncThunk('tasks/persistTask', async (task: Task) => {
+export const persistTask = createAsyncThunk('tasks/persistTask', async (task) => {
   return saveTaskToApi(task);
 });
 
 export const removeTaskRemote = createAsyncThunk(
   'tasks/removeTaskRemote',
-  async (taskId: string) => {
+  async (taskId) => {
     return deleteTaskFromApi(taskId);
   },
 );
@@ -48,19 +37,9 @@ const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    addTask: (
-      state,
-      action: PayloadAction<{
-        id?: string;
-        columnId: string;
-        title: string;
-        description?: string;
-        priority?: Priority;
-        assigneeId?: string | null;
-      }>,
-    ) => {
+    addTask: (state, action) => {
       const id = action.payload.id ?? `task-${Date.now()}`;
-      const task: Task = {
+      const task = {
         id,
         columnId: action.payload.columnId,
         title: action.payload.title,
@@ -72,20 +51,11 @@ const tasksSlice = createSlice({
       state.entities[id] = task;
       state.ids.push(id);
     },
-    deleteTask: (state, action: PayloadAction<string>) => {
+    deleteTask: (state, action) => {
       delete state.entities[action.payload];
       state.ids = state.ids.filter((id) => id !== action.payload);
     },
-    updateTask: (
-      state,
-      action: PayloadAction<{
-        id: string;
-        title?: string;
-        description?: string;
-        priority?: Priority;
-        assigneeId?: string | null;
-      }>,
-    ) => {
+    updateTask: (state, action) => {
       const task = state.entities[action.payload.id];
       if (!task) return;
       if (action.payload.title !== undefined) task.title = action.payload.title;
@@ -97,18 +67,10 @@ const tasksSlice = createSlice({
         task.assigneeId = action.payload.assigneeId;
       }
     },
-    setFilterAssignee: (state, action: PayloadAction<string | null>) => {
+    setFilterAssignee: (state, action) => {
       state.filterAssigneeId = action.payload;
     },
-    moveTaskOptimistic: (
-      state,
-      action: PayloadAction<{
-        taskId: string;
-        fromColumnId: string;
-        toColumnId: string;
-        toIndex: number;
-      }>,
-    ) => {
+    moveTaskOptimistic: (state, action) => {
       const task = state.entities[action.payload.taskId];
       if (!task) return;
 
@@ -119,7 +81,7 @@ const tasksSlice = createSlice({
       task.columnId = action.payload.toColumnId;
       task.order = action.payload.toIndex;
     },
-    revertOptimisticMove: (state, action: PayloadAction<string>) => {
+    revertOptimisticMove: (state, action) => {
       const move = state.optimisticMoves[action.payload];
       const task = state.entities[action.payload];
       if (move && task) {
@@ -127,7 +89,7 @@ const tasksSlice = createSlice({
       }
       delete state.optimisticMoves[action.payload];
     },
-    confirmOptimisticMove: (state, action: PayloadAction<string>) => {
+    confirmOptimisticMove: (state, action) => {
       delete state.optimisticMoves[action.payload];
     },
   },

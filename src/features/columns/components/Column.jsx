@@ -11,19 +11,14 @@ import { selectTasksByColumnId } from '../../tasks/tasksSelectors';
 import { TaskCard } from '../../tasks/components/TaskCard';
 import { AddTaskForm } from '../../tasks/components/AddTaskForm';
 
-interface ColumnProps {
-  columnId: string;
-  title: string;
-}
-
-export function Column({ columnId, title }: ColumnProps) {
+export function Column({ columnId, title }) {
   const dispatch = useAppDispatch();
   const tasks = useAppSelector(selectTasksByColumnId(columnId));
   const taskEntities = useAppSelector((state) => state.tasks.entities);
-  const [draggingTaskId, setDraggingTaskId] = useState<string | null>(null);
+  const [draggingTaskId, setDraggingTaskId] = useState(null);
   const [isDragOver, setIsDragOver] = useState(false);
 
-  const handleDragStart = useCallback((taskId: string) => {
+  const handleDragStart = useCallback((taskId) => {
     setDraggingTaskId(taskId);
   }, []);
 
@@ -32,7 +27,7 @@ export function Column({ columnId, title }: ColumnProps) {
     setIsDragOver(false);
   }, []);
 
-  const handleDragOver = (e: React.DragEvent) => {
+  const handleDragOver = (e) => {
     e.preventDefault();
     setIsDragOver(true);
   };
@@ -41,7 +36,7 @@ export function Column({ columnId, title }: ColumnProps) {
     setIsDragOver(false);
   };
 
-  const handleDrop = async (e: React.DragEvent) => {
+  const handleDrop = async (e) => {
     e.preventDefault();
     setIsDragOver(false);
 
@@ -75,17 +70,16 @@ export function Column({ columnId, title }: ColumnProps) {
       dispatch(removeTaskFromColumn({ columnId, taskId }));
       dispatch(addTaskToColumn({ columnId: fromColumnId, taskId }));
       dispatch(
-        reorderColumnTasks({ columnId: fromColumnId, taskIds: [...(tasks.map((t) => t.id))] }),
+        reorderColumnTasks({ columnId: fromColumnId, taskIds: [...tasks.map((t) => t.id)] }),
       );
     }
 
     setDraggingTaskId(null);
   };
 
-  const handleCardDragStart = (taskId: string) => {
+  const handleCardDragStart = (taskId) => {
     handleDragStart(taskId);
-    // Store task id for cross-column drops
-    const event = window.event as DragEvent | undefined;
+    const event = window.event;
     if (event?.dataTransfer) {
       event.dataTransfer.setData('text/plain', taskId);
       event.dataTransfer.effectAllowed = 'move';

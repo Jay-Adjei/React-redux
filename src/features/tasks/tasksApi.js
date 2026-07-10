@@ -1,13 +1,11 @@
-import type { Task } from '../../types';
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-export const mockTasks: Task[] = [
+export const mockTasks = [
   {
     id: 'task-1',
     columnId: 'col-todo',
     title: 'Set up project repository',
-    description: 'Initialize the repo with Vite, TypeScript, and Redux Toolkit.',
+    description: 'Initialize the repo with Vite, JavaScript, and Redux Toolkit.',
     priority: 'high',
     assigneeId: 'user-1',
     order: 0,
@@ -41,17 +39,17 @@ export const mockTasks: Task[] = [
   },
 ];
 
-export async function fetchTasksFromApi(): Promise<Task[]> {
+export async function fetchTasksFromApi() {
   await delay(1200);
   return mockTasks;
 }
 
-export async function saveTaskToApi(task: Task): Promise<Task> {
+export async function saveTaskToApi(task) {
   await delay(600);
   return task;
 }
 
-export async function deleteTaskFromApi(taskId: string): Promise<string> {
+export async function deleteTaskFromApi(taskId) {
   await delay(500);
   return taskId;
 }

@@ -1,16 +1,14 @@
 import { createSelector } from '@reduxjs/toolkit';
-import type { RootState } from '../../app/store';
-import type { Task } from '../../types';
 
-const selectTasksState = (state: RootState) => state.tasks;
-const selectBoardState = (state: RootState) => state.board;
+const selectTasksState = (state) => state.tasks;
+const selectBoardState = (state) => state.board;
 
 export const selectAllTasks = createSelector(
   [selectTasksState],
   (tasksState) => tasksState.ids.map((id) => tasksState.entities[id]),
 );
 
-export const selectTasksByColumnId = (columnId: string) =>
+export const selectTasksByColumnId = (columnId) =>
   createSelector([selectAllTasks, selectTasksState], (tasks, tasksState) => {
     const filterAssigneeId = tasksState.filterAssigneeId;
     return tasks
@@ -22,8 +20,8 @@ export const selectTasksByColumnId = (columnId: string) =>
       .sort((a, b) => a.order - b.order);
   });
 
-export const selectTaskById = (taskId: string) =>
-  createSelector([selectTasksState], (tasksState): Task | undefined => {
+export const selectTaskById = (taskId) =>
+  createSelector([selectTasksState], (tasksState) => {
     return tasksState.entities[taskId];
   });
 
@@ -42,7 +40,7 @@ export const selectTasksError = createSelector(
   (tasksState) => tasksState.error,
 );
 
-export const selectColumnTaskIds = (columnId: string) =>
+export const selectColumnTaskIds = (columnId) =>
   createSelector([selectBoardState], (boardState) => {
     return boardState.columns[columnId]?.taskIds ?? [];
   });

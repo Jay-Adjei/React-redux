@@ -4,14 +4,7 @@ import { deleteTask, updateTask } from '../tasksSlice';
 import { removeTaskFromColumn } from '../../board/boardSlice';
 import { selectTaskById } from '../tasksSelectors';
 
-interface TaskCardProps {
-  taskId: string;
-  columnId: string;
-  onDragStart: (taskId: string) => void;
-  onDragEnd: () => void;
-}
-
-export function TaskCard({ taskId, columnId, onDragStart, onDragEnd }: TaskCardProps) {
+export function TaskCard({ taskId, columnId, onDragStart, onDragEnd }) {
   const dispatch = useAppDispatch();
   const task = useAppSelector(selectTaskById(taskId));
   const users = useAppSelector((state) => state.users.entities);

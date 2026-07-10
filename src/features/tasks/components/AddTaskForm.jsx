@@ -1,24 +1,21 @@
 import { useState } from 'react';
-import type { Priority } from '../../../types';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { addTask } from '../tasksSlice';
 import { addTaskToColumn } from '../../board/boardSlice';
 
-interface AddTaskFormProps {
-  columnId: string;
-}
-
-export function AddTaskForm({ columnId }: AddTaskFormProps) {
+export function AddTaskForm({ columnId }) {
   const dispatch = useAppDispatch();
-  const users = useAppSelector((state) => state.users.ids.map((id) => state.users.entities[id]));
+  const users = useAppSelector((state) =>
+    state.users.ids.map((id) => state.users.entities[id]),
+  );
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [priority, setPriority] = useState<Priority>('medium');
-  const [assigneeId, setAssigneeId] = useState<string>('');
+  const [priority, setPriority] = useState('medium');
+  const [assigneeId, setAssigneeId] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!title.trim()) return;
 
@@ -64,7 +61,7 @@ export function AddTaskForm({ columnId }: AddTaskFormProps) {
         placeholder="Description (optional)"
       />
       <div className="form-row">
-        <select value={priority} onChange={(e) => setPriority(e.target.value as Priority)}>
+        <select value={priority} onChange={(e) => setPriority(e.target.value)}>
           <option value="low">Low Priority</option>
           <option value="medium">Medium Priority</option>
           <option value="high">High Priority</option>
