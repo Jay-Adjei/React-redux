@@ -25,9 +25,6 @@ export function AddTaskForm({ columnId }) {
 
     // TODO [Level 1]: Dispatch addTask with the form values, then dispatch addTaskToColumn
     dispatch(addTask({ title, description, priority, assigneeId, id: taskId }));
-    console.log(
-      `title: ${title} \n description: ${description} \n priority: ${priority} \n assignedId: ${assigneeId}`,
-    );
     void addTaskToColumn;
     void taskId;
     void columnId;

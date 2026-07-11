@@ -40,10 +40,9 @@ const tasksSlice = createSlice({
     addTask: (state, action) => {
       // TODO [Level 1]: Implement the addTask reducer here
       // Hint: Generate an id, create a Task object, add it to state.entities and state.ids
-      const id = nanoid(17);
-      const { title, description, priority, assigneeId, columnId } =
+      const { title, description, priority, assigneeId, columnId, id } =
         action.payload;
-      state.entities = {
+      const task = {
         id: id,
         title: title,
         description: description,
@@ -51,14 +50,15 @@ const tasksSlice = createSlice({
         assigneeId: assigneeId,
         columnId: columnId,
       };
-      state.ids = id;
+      state.entities[id] = task;
+      state.ids.push(id);
     },
     deleteTask: (state, action) => {
       // TODO [Level 1]: Implement the deleteTask reducer here
       // Hint: Remove the task from state.entities and state.ids
-      state.entities = state.entities.filter(
-        (entity) => entity.id !== action.payload.id,
-      );
+      delete state.entities[action.payload];
+      state.ids = state.ids.filter((id) => id !== action.payload);
+      console.log(state.entities);
     },
     updateTask: (state, action) => {
       // TODO [Level 1]: Implement the updateTask reducer here
