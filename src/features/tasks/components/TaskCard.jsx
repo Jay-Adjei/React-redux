@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { deleteTask, updateTask } from '../tasksSlice';
-import { removeTaskFromColumn } from '../../board/boardSlice';
-import { selectTaskById } from '../tasksSelectors';
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { deleteTask, updateTask } from "../tasksSlice";
+import { removeTaskFromColumn } from "../../board/boardSlice";
+import { selectTaskById } from "../tasksSelectors";
 
 export function TaskCard({ taskId, columnId, onDragStart, onDragEnd }) {
   const dispatch = useAppDispatch();
@@ -18,8 +18,8 @@ export function TaskCard({ taskId, columnId, onDragStart, onDragEnd }) {
   );
 
   const [isEditing, setIsEditing] = useState(false);
-  const [editTitle, setEditTitle] = useState('');
-  const [editDescription, setEditDescription] = useState('');
+  const [editTitle, setEditTitle] = useState("");
+  const [editDescription, setEditDescription] = useState("");
 
   if (!task) return null;
 
@@ -40,15 +40,14 @@ export function TaskCard({ taskId, columnId, onDragStart, onDragEnd }) {
 
   const handleDelete = () => {
     // TODO [Level 1]: Dispatch deleteTask and removeTaskFromColumn actions
-    void dispatch;
-    void deleteTask;
+    dispatch(deleteTask(task.id));
     void removeTaskFromColumn;
     void columnId;
   };
 
   return (
     <div
-      className={`task-card${isOptimistic ? ' optimistic' : ''}`}
+      className={`task-card${isOptimistic ? " optimistic" : ""}`}
       draggable
       onDragStart={() => onDragStart(taskId)}
       onDragEnd={onDragEnd}
@@ -69,7 +68,10 @@ export function TaskCard({ taskId, columnId, onDragStart, onDragEnd }) {
             <button className="btn-primary" onClick={handleSave}>
               Save
             </button>
-            <button className="btn-secondary" onClick={() => setIsEditing(false)}>
+            <button
+              className="btn-secondary"
+              onClick={() => setIsEditing(false)}
+            >
               Cancel
             </button>
           </div>
@@ -79,8 +81,12 @@ export function TaskCard({ taskId, columnId, onDragStart, onDragEnd }) {
           <div className="task-card-header">
             <span className="task-title">{task.title}</span>
             <div className="task-actions">
-              <button onClick={handleEdit} title="Edit">✏️</button>
-              <button onClick={handleDelete} title="Delete">🗑️</button>
+              <button onClick={handleEdit} title="Edit">
+                ✏️
+              </button>
+              <button onClick={handleDelete} title="Delete">
+                🗑️
+              </button>
             </div>
           </div>
           {task.description && (

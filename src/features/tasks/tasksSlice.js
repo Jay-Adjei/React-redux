@@ -1,53 +1,64 @@
-import {
-  createSlice,
-  createAsyncThunk,
-} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, nanoid } from "@reduxjs/toolkit";
 import {
   deleteTaskFromApi,
   fetchTasksFromApi,
   mockTasks,
   saveTaskToApi,
-} from './tasksApi';
+} from "./tasksApi";
 
 const initialState = {
   entities: Object.fromEntries(mockTasks.map((task) => [task.id, task])),
   ids: mockTasks.map((task) => task.id),
-  status: 'idle',
+  status: "idle",
   error: null,
   filterAssigneeId: null,
   optimisticMoves: {},
 };
 
-export const fetchTasks = createAsyncThunk('tasks/fetchTasks', async () => {
+export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
   return fetchTasksFromApi();
 });
 
-export const persistTask = createAsyncThunk('tasks/persistTask', async (task) => {
-  return saveTaskToApi(task);
-});
+export const persistTask = createAsyncThunk(
+  "tasks/persistTask",
+  async (task) => {
+    return saveTaskToApi(task);
+  },
+);
 
 export const removeTaskRemote = createAsyncThunk(
-  'tasks/removeTaskRemote',
+  "tasks/removeTaskRemote",
   async (taskId) => {
     return deleteTaskFromApi(taskId);
   },
 );
 
 const tasksSlice = createSlice({
-  name: 'tasks',
+  name: "tasks",
   initialState,
   reducers: {
     addTask: (state, action) => {
       // TODO [Level 1]: Implement the addTask reducer here
       // Hint: Generate an id, create a Task object, add it to state.entities and state.ids
-      void state;
-      void action;
+      const id = nanoid(17);
+      const { title, description, priority, assigneeId, columnId } =
+        action.payload;
+      state.entities = {
+        id: id,
+        title: title,
+        description: description,
+        priority: priority,
+        assigneeId: assigneeId,
+        columnId: columnId,
+      };
+      state.ids = id;
     },
     deleteTask: (state, action) => {
       // TODO [Level 1]: Implement the deleteTask reducer here
       // Hint: Remove the task from state.entities and state.ids
-      void state;
-      void action;
+      state.entities = state.entities.filter(
+        (entity) => entity.id !== action.payload.id,
+      );
     },
     updateTask: (state, action) => {
       // TODO [Level 1]: Implement the updateTask reducer here
