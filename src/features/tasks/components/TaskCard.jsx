@@ -33,8 +33,13 @@ export function TaskCard({ taskId, columnId, onDragStart, onDragEnd }) {
 
   const handleSave = () => {
     // TODO [Level 1]: Dispatch updateTask with the edited title and description
-    void dispatch;
-    void updateTask;
+    dispatch(
+      updateTask({
+        id: task.id,
+        title: editTitle,
+        description: editDescription,
+      }),
+    );
     setIsEditing(false);
   };
 

@@ -63,8 +63,12 @@ const tasksSlice = createSlice({
     updateTask: (state, action) => {
       // TODO [Level 1]: Implement the updateTask reducer here
       // Hint: Find the task by id and update the provided fields
-      void state;
-      void action;
+      const { id, title, description } = action.payload;
+      if (state.entities[id].id == id) {
+        state.entities[id].title = title;
+        state.entities[id].description = description;
+        console.log(title, description);
+      }
     },
     setFilterAssignee: (state, action) => {
       state.filterAssigneeId = action.payload;
