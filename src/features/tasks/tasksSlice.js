@@ -95,7 +95,24 @@ const tasksSlice = createSlice({
     // TODO [Level 2]: Handle fetchTasks.rejected — set status to 'failed' and store error message
     // TODO [Level 2]: Handle persistTask.pending, .fulfilled, and .rejected lifecycle states
     // TODO [Level 2]: Handle removeTaskRemote.fulfilled and .rejected lifecycle states
-    void builder;
+    builder
+      .addCase(fetchTasks.pending, (state) => {
+        state.status = "loading";
+        console.log(state.status);
+        state.error = "";
+      })
+      .addCase(fetchTasks.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        console.log(action.payload);
+        state.entities = Object.fromEntries(
+          action.payload.map((task) => [task.id, task]),
+        );
+        state.ids = action.payload.map((task) => task.id);
+      })
+      .addCase(fetchTasks.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = null;
+      });
   },
 });
 

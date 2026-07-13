@@ -1,10 +1,14 @@
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { fetchTasks } from '../../tasks/tasksSlice';
-import { selectColumns, selectTasksStatus, selectTasksError } from '../../tasks/tasksSelectors';
-import { Column } from '../../columns/components/Column';
-import { FilterBar } from '../../tasks/components/FilterBar';
-import { TaskSkeleton } from '../../tasks/components/TaskSkeleton';
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { fetchTasks } from "../../tasks/tasksSlice";
+import {
+  selectColumns,
+  selectTasksStatus,
+  selectTasksError,
+} from "../../tasks/tasksSelectors";
+import { Column } from "../../columns/components/Column";
+import { FilterBar } from "../../tasks/components/FilterBar";
+import { TaskSkeleton } from "../../tasks/components/TaskSkeleton";
 
 export function Board() {
   const dispatch = useAppDispatch();
@@ -15,9 +19,9 @@ export function Board() {
 
   useEffect(() => {
     // TODO [Level 2]: Dispatch fetchTasks when status is 'idle' to trigger async data loading
-    if (status === 'idle') {
-      void dispatch;
-      void fetchTasks;
+    if (status === "idle") {
+      dispatch(fetchTasks());
+      console.log(status, error);
     }
   }, [dispatch, status]);
 
@@ -33,13 +37,16 @@ export function Board() {
       {error && (
         <div className="error-banner">
           <span>⚠️ {error}</span>
-          <button className="btn-secondary" onClick={() => dispatch(fetchTasks())}>
+          <button
+            className="btn-secondary"
+            onClick={() => dispatch(fetchTasks())}
+          >
             Retry
           </button>
         </div>
       )}
 
-      {status === 'loading' ? (
+      {status === "loading" ? (
         <div className="board">
           <TaskSkeleton />
           <TaskSkeleton />
