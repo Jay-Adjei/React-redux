@@ -98,7 +98,7 @@ const tasksSlice = createSlice({
     builder
       .addCase(fetchTasks.pending, (state) => {
         state.status = "loading";
-        state.error = "";
+        state.error = null;
       })
       .addCase(fetchTasks.fulfilled, (state, action) => {
         state.status = "succeeded";
@@ -109,7 +109,28 @@ const tasksSlice = createSlice({
       })
       .addCase(fetchTasks.rejected, (state, action) => {
         state.status = "failed";
+        state.error = action.payload.error;
+      })
+      .addCase(persistTask.pending, (state, action) => {
+        state.status = "loading";
         state.error = null;
+      })
+      .addCase(persistTask.fulfilled, (state, action) => {
+        state.status = "succeded";
+        state.entities[action.payload.id] = action.payload;
+        if (!state.ids.includes(action.payload.id)) {
+          state.ids.push(action.payload.id);
+        }
+      })
+      .addCase(persistTask.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(removeTaskRemote.fulfilled, (state, action) => {
+        state.status = "succeeded";
+      })
+      .addCase(removeTaskRemote.rejected, (state, action) => {
+        state.status = "failed";
       });
   },
 });
