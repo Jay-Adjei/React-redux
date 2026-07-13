@@ -40,7 +40,7 @@ const tasksSlice = createSlice({
     addTask: (state, action) => {
       // TODO [Level 1]: Implement the addTask reducer here
       // Hint: Generate an id, create a Task object, add it to state.entities and state.ids
-      const { title, description, priority, assigneeId, columnId, id } =
+      const { title, description, priority, assigneeId, columnId, id, order } =
         action.payload;
       const task = {
         id: id,
@@ -98,12 +98,10 @@ const tasksSlice = createSlice({
     builder
       .addCase(fetchTasks.pending, (state) => {
         state.status = "loading";
-        console.log(state.status);
         state.error = "";
       })
       .addCase(fetchTasks.fulfilled, (state, action) => {
         state.status = "succeeded";
-        console.log(action.payload);
         state.entities = Object.fromEntries(
           action.payload.map((task) => [task.id, task]),
         );
