@@ -83,7 +83,12 @@ const tasksSlice = createSlice({
         fromColumnId: fromColumnId,
         toColumnId: toColumnId,
       };
-      console.log(id, state.optimisticMoves[id].fromColumnId);
+      console.log(
+        id,
+        state.optimisticMoves[id].fromColumnId,
+        state.optimisticMoves[id].toColumnId,
+        state.entities[id].columnId
+      );
     },
     revertOptimisticMove: (state, action) => {
       // TODO [Level 3]: Revert an optimistic move using optimisticMoves record

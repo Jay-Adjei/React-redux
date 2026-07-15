@@ -41,8 +41,8 @@ const boardSlice = createSlice({
     },
     reorderColumnTasks: (state, action) => {
       // TODO [Level 3]: Implement reorderColumnTasks — replace the column's taskIds array
-      void state;
-      void action;
+      const { columnId, taskId } = action.payload;
+      state.columns[columnId].taskIds.push(taskId);
     },
   },
 });

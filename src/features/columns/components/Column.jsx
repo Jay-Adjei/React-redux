@@ -67,11 +67,10 @@ export function Column({ columnId, title }) {
       }),
     );
     dispatch(revertOptimisticMove(taskId));
-    dispatch(confirmOptimisticMove(taskId))
+    dispatch(confirmOptimisticMove(taskId));
+    dispatch(reorderColumnTasks({ columnId, taskId }));
     void removeTaskFromColumn;
     void addTaskToColumn;
-    void confirmOptimisticMove;
-    void reorderColumnTasks;
 
     setDraggingTaskId(null);
   };
