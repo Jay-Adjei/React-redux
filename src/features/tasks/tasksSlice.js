@@ -5,6 +5,7 @@ import {
   mockTasks,
   saveTaskToApi,
 } from "./tasksApi";
+import { act } from "react";
 
 const initialState = {
   entities: Object.fromEntries(mockTasks.map((task) => [task.id, task])),
@@ -75,18 +76,26 @@ const tasksSlice = createSlice({
     },
     moveTaskOptimistic: (state, action) => {
       // TODO [Level 3]: Implement optimistic move — update task.columnId and track in optimisticMoves
-      void state;
-      void action;
+      const { fromColumnId, toColumnId, toIndex, id } = action.payload;
+      state.entities[id].columnId = toColumnId;
+      state.entities[id].order = toIndex;
+      state.optimisticMoves[id] = {
+        fromColumnId: fromColumnId,
+        toColumnId: toColumnId,
+      };
+      console.log(id, state.optimisticMoves[id].fromColumnId);
     },
     revertOptimisticMove: (state, action) => {
       // TODO [Level 3]: Revert an optimistic move using optimisticMoves record
-      void state;
-      void action;
+      const taskId = action.payload;
+      console.log(taskId);
+      console.log(state.optimisticMoves[taskId].fromColumnId);
+      state.entities[taskId].columnId =
+        state.optimisticMoves[taskId].fromColumnId;
     },
     confirmOptimisticMove: (state, action) => {
       // TODO [Level 3]: Clear the optimistic move tracking entry on success
-      void state;
-      void action;
+      delete state.optimisticMoves[action.payload];
     },
   },
   extraReducers: (builder) => {
@@ -131,6 +140,7 @@ const tasksSlice = createSlice({
       })
       .addCase(removeTaskRemote.rejected, (state, action) => {
         state.status = "failed";
+        state.error = action.error.message;
       });
   },
 });
