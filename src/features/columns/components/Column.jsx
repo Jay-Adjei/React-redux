@@ -56,8 +56,6 @@ export function Column({ columnId, title }) {
     // 3. Dispatch addTaskToColumn on the target column
     // 4. Dispatch persistTask and confirmOptimisticMove on success
     // 5. On failure, revert with revertOptimisticMove and restore column taskIds
-    dispatch(persistTask(task));
-    console.log(taskId);
     dispatch(
       moveTaskOptimistic({
         fromColumnId: task.columnId,
@@ -66,11 +64,12 @@ export function Column({ columnId, title }) {
         id: taskId,
       }),
     );
-    dispatch(revertOptimisticMove(taskId));
     dispatch(confirmOptimisticMove(taskId));
+    dispatch(removeTaskFromColumn(columnId, taskId));
+    dispatch(addTaskToColumn(columnId, taskId));
+    dispatch(persistTask(task));
+    dispatch(revertOptimisticMove(taskId));
     dispatch(reorderColumnTasks({ columnId, taskId }));
-    void removeTaskFromColumn;
-    void addTaskToColumn;
 
     setDraggingTaskId(null);
   };
