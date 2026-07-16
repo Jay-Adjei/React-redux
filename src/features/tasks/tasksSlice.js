@@ -44,9 +44,9 @@ const tasksSlice = createSlice({
       const { title, desc, priority, assigneeId, taskId, columnId } =
         action.payload;
       const task = {
-        taskId,
+        id: taskId,
         title,
-        desc,
+        description: desc,
         priority,
         assigneeId,
         columnId,
