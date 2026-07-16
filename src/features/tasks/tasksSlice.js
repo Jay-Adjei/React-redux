@@ -5,6 +5,7 @@ import {
   mockTasks,
   saveTaskToApi,
 } from "./tasksApi";
+import { act } from "react";
 
 const initialState = {
   entities: Object.fromEntries(mockTasks.map((task) => [task.id, task])),
@@ -57,8 +58,10 @@ const tasksSlice = createSlice({
     deleteTask: (state, action) => {
       // TODO [Level 1]: Implement the deleteTask reducer here
       // Hint: Remove the task from state.entities and state.ids
-      void state;
-      void action;
+      const taskId = action.payload;
+      delete state.entities[taskId];
+      console.log(taskId);
+      state.ids = state.ids.filter((id) => id !== taskId);
     },
     updateTask: (state, action) => {
       // TODO [Level 1]: Implement the updateTask reducer here
