@@ -60,14 +60,14 @@ const tasksSlice = createSlice({
       // Hint: Remove the task from state.entities and state.ids
       const taskId = action.payload;
       delete state.entities[taskId];
-      console.log(taskId);
       state.ids = state.ids.filter((id) => id !== taskId);
     },
     updateTask: (state, action) => {
       // TODO [Level 1]: Implement the updateTask reducer here
       // Hint: Find the task by id and update the provided fields
-      void state;
-      void action;
+      const { taskId, title, desc } = action.payload;
+      state.entities[taskId].title = title;
+      state.entities[taskId].description = desc;
     },
     setFilterAssignee: (state, action) => {
       state.filterAssigneeId = action.payload;
