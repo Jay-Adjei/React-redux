@@ -1,47 +1,58 @@
-import {
-  createSlice,
-  createAsyncThunk,
-} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   deleteTaskFromApi,
   fetchTasksFromApi,
   mockTasks,
   saveTaskToApi,
-} from './tasksApi';
+} from "./tasksApi";
 
 const initialState = {
   entities: Object.fromEntries(mockTasks.map((task) => [task.id, task])),
   ids: mockTasks.map((task) => task.id),
-  status: 'idle',
+  status: "idle",
   error: null,
   filterAssigneeId: null,
   optimisticMoves: {},
 };
 
-export const fetchTasks = createAsyncThunk('tasks/fetchTasks', async () => {
+export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
   return fetchTasksFromApi();
 });
 
-export const persistTask = createAsyncThunk('tasks/persistTask', async (task) => {
-  return saveTaskToApi(task);
-});
+export const persistTask = createAsyncThunk(
+  "tasks/persistTask",
+  async (task) => {
+    return saveTaskToApi(task);
+  },
+);
 
 export const removeTaskRemote = createAsyncThunk(
-  'tasks/removeTaskRemote',
+  "tasks/removeTaskRemote",
   async (taskId) => {
     return deleteTaskFromApi(taskId);
   },
 );
 
 const tasksSlice = createSlice({
-  name: 'tasks',
+  name: "tasks",
   initialState,
   reducers: {
     addTask: (state, action) => {
       // TODO [Level 1]: Implement the addTask reducer here
       // Hint: Generate an id, create a Task object, add it to state.entities and state.ids
-      void state;
-      void action;
+      const { title, desc, priority, assigneeId, taskId, columnId } =
+        action.payload;
+      const task = {
+        taskId,
+        title,
+        desc,
+        priority,
+        assigneeId,
+        columnId,
+        order: state.ids.length,
+      };
+      state.entities[taskId] = task;
+      state.ids.push(taskId);
     },
     deleteTask: (state, action) => {
       // TODO [Level 1]: Implement the deleteTask reducer here

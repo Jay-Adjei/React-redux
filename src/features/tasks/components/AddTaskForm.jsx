@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { addTask } from '../tasksSlice';
-import { addTaskToColumn } from '../../board/boardSlice';
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { addTask } from "../tasksSlice";
+import { addTaskToColumn } from "../../board/boardSlice";
 
 export function AddTaskForm({ columnId }) {
   const dispatch = useAppDispatch();
@@ -11,10 +11,10 @@ export function AddTaskForm({ columnId }) {
     state.users.ids.map((id) => state.users.entities[id]),
   );
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [priority, setPriority] = useState('medium');
-  const [assigneeId, setAssigneeId] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [priority, setPriority] = useState("medium");
+  const [assigneeId, setAssigneeId] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSubmit = (e) => {
@@ -24,22 +24,34 @@ export function AddTaskForm({ columnId }) {
     const taskId = `task-${Date.now()}`;
 
     // TODO [Level 1]: Dispatch addTask with the form values, then dispatch addTaskToColumn
-    void dispatch;
-    void addTask;
+    dispatch(
+      addTask({
+        title: title,
+        desc: description,
+        priority: priority,
+        assigneeId: assigneeId,
+        columnId: columnId,
+        taskId: taskId
+      }),
+    );
     void addTaskToColumn;
     void taskId;
     void columnId;
 
-    setTitle('');
-    setDescription('');
-    setPriority('medium');
-    setAssigneeId('');
+    setTitle("");
+    setDescription("");
+    setPriority("medium");
+    setAssigneeId("");
     setIsOpen(false);
   };
 
   if (!isOpen) {
     return (
-      <button className="btn-secondary" onClick={() => setIsOpen(true)} style={{ marginTop: '0.5rem' }}>
+      <button
+        className="btn-secondary"
+        onClick={() => setIsOpen(true)}
+        style={{ marginTop: "0.5rem" }}
+      >
         + Add Task
       </button>
     );
@@ -64,7 +76,10 @@ export function AddTaskForm({ columnId }) {
           <option value="medium">Medium Priority</option>
           <option value="high">High Priority</option>
         </select>
-        <select value={assigneeId} onChange={(e) => setAssigneeId(e.target.value)}>
+        <select
+          value={assigneeId}
+          onChange={(e) => setAssigneeId(e.target.value)}
+        >
           <option value="">Unassigned</option>
           {users.map((user) => (
             <option key={user.id} value={user.id}>
@@ -77,7 +92,11 @@ export function AddTaskForm({ columnId }) {
         <button type="submit" className="btn-primary">
           Add Task
         </button>
-        <button type="button" className="btn-secondary" onClick={() => setIsOpen(false)}>
+        <button
+          type="button"
+          className="btn-secondary"
+          onClick={() => setIsOpen(false)}
+        >
           Cancel
         </button>
       </div>
