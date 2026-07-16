@@ -40,8 +40,7 @@ export function TaskCard({ taskId, columnId, onDragStart, onDragEnd }) {
   const handleDelete = () => {
     // TODO [Level 1]: Dispatch deleteTask and removeTaskFromColumn actions
     dispatch(deleteTask(taskId));
-    void removeTaskFromColumn;
-    void columnId;
+    dispatch(removeTaskFromColumn({ taskId, columnId }));
   };
 
   return (
