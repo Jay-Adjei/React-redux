@@ -31,12 +31,10 @@ export function AddTaskForm({ columnId }) {
         priority: priority,
         assigneeId: assigneeId,
         columnId: columnId,
-        taskId: taskId
+        taskId: taskId,
       }),
     );
-    void addTaskToColumn;
-    void taskId;
-    void columnId;
+    dispatch(addTaskToColumn({ taskId, columnId }));
 
     setTitle("");
     setDescription("");

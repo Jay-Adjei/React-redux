@@ -27,8 +27,8 @@ const boardSlice = createSlice({
     },
     addTaskToColumn: (state, action) => {
       // TODO [Level 1]: Implement addTaskToColumn — push taskId into the column's taskIds array
-      void state;
-      void action;
+      const {taskId, columnId} = action.payload;
+      state.columns[columnId].taskIds.push(taskId);
     },
     removeTaskFromColumn: (state, action) => {
       // TODO [Level 1]: Implement removeTaskFromColumn — filter taskId out of the column's taskIds
