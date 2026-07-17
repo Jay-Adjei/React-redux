@@ -83,8 +83,8 @@ const tasksSlice = createSlice({
     },
     revertOptimisticMove: (state, action) => {
       // TODO [Level 3]: Revert an optimistic move using optimisticMoves record
-      void state;
-      void action;
+      state.entities[action.payload].columnId =
+        state.optimisticMoves.fromColumnId;
     },
     confirmOptimisticMove: (state, action) => {
       // TODO [Level 3]: Clear the optimistic move tracking entry on success

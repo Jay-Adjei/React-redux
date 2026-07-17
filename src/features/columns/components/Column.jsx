@@ -64,11 +64,11 @@ export function Column({ columnId, title }) {
         order: tasks.length,
       }),
     );
+    dispatch(revertOptimisticMove(taskId));
     dispatch(addTaskToColumn({ taskId, columnId }));
     dispatch(removeTaskFromColumn({ taskId, columnId }));
     dispatch(persistTask(task));
     void confirmOptimisticMove;
-    void revertOptimisticMove;
     void reorderColumnTasks;
 
     setDraggingTaskId(null);
