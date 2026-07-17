@@ -88,8 +88,7 @@ const tasksSlice = createSlice({
     },
     confirmOptimisticMove: (state, action) => {
       // TODO [Level 3]: Clear the optimistic move tracking entry on success
-      void state;
-      void action;
+      state.optimisticMoves = {};
     },
   },
   extraReducers: (builder) => {
