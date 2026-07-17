@@ -16,8 +16,7 @@ export function Board() {
   useEffect(() => {
     // TODO [Level 2]: Dispatch fetchTasks when status is 'idle' to trigger async data loading
     if (status === 'idle') {
-      void dispatch;
-      void fetchTasks;
+      dispatch(fetchTasks());
     }
   }, [dispatch, status]);
 
