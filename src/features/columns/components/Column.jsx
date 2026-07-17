@@ -64,12 +64,12 @@ export function Column({ columnId, title }) {
         order: tasks.length,
       }),
     );
-    dispatch(confirmOptimisticMove())
+    dispatch(confirmOptimisticMove());
     dispatch(addTaskToColumn({ taskId, columnId }));
+    dispatch(reorderColumnTasks({ columnid, taskId }));
     dispatch(persistTask(task));
     dispatch(revertOptimisticMove(taskId));
     dispatch(removeTaskFromColumn({ taskId, columnId }));
-    void reorderColumnTasks;
 
     setDraggingTaskId(null);
   };
